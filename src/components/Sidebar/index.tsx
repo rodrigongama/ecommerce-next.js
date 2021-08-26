@@ -71,6 +71,7 @@ const Sidebar = ({ slug }: SidebarProps) => {
   function handleCleanFilters(): void {
     setIsProductsFilter(false);
     setFilterSelected('');
+    setColorSelected(null);
   }
 
   useEffect(() => {
