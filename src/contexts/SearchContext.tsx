@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { Dispatch, ReactNode } from 'react';
 import { createContext, useState, useContext } from 'react';
 
 export interface ProductsType {
@@ -13,21 +13,21 @@ export interface ProductsType {
 }
 
 type Filters = {
-  color?: string;
+  color: string;
   gender?: string;
 };
 
 interface SearchContextData {
   products: ProductsType[];
-  setProducts: any;
+  setProducts: ([]) => void;
   productsFiltered: ProductsType[];
-  setProductsFiltered: any;
+  setProductsFiltered: ([]) => void;
   productsIsSearched: boolean;
-  setProductsIsSearched: any;
+  setProductsIsSearched: Dispatch<React.SetStateAction<boolean>>;
   isProductsFilter: boolean;
-  setIsProductsFilter: any;
+  setIsProductsFilter: Dispatch<React.SetStateAction<boolean>>;
   filterSelected: string;
-  setFilterSelected: any;
+  setFilterSelected: Dispatch<React.SetStateAction<string>>;
 }
 
 interface SearchProviderProps {
