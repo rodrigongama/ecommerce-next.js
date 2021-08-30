@@ -90,7 +90,7 @@ export const NavigationContainer = styled.div<NavigationContainerProps>`
   @media (max-width: 765px) {
     display: ${({ isMenuOpen }) => (isMenuOpen ? 'inherit' : 'none')};
     background-color: ${(props) => props.theme.primary};
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     height: 100vh;
