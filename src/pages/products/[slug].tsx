@@ -76,7 +76,7 @@ const Products = ({ slug, data }: ProductsProps) => {
       <Head>
         <title>{pageName} | WebJump Ecommerce</title>
       </Head>
-      <Header productsArray={productsArray} />
+      <Header />
 
       <MainContainer>
         <Navigation>
