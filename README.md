@@ -2,43 +2,20 @@
 
 - Instale o [yarn](https://classic.yarnpkg.com/en/docs/install/#windows-stable)
 - Faça um git clone em sua máquina
-
-- Back-end
-
-1. Entre na pasta mock-api
-
-```
-cd mock-api
-```
-
-2. Instale as dependências
+- Abra o terminal
+- Instale as dependências
 
 ```
 yarn
 ```
 
-3. Suba o servidor
-
-```
-yarn server
-```
-
-- Front-end:
-
-1. Abra novo terminal para acessar a raiz do projeto
-2. Instale as dependências
-
-```
-yarn
-```
-
-3. Dê o build na aplicação
+- Dê o build na aplicação
 
 ```
 yarn build
 ```
 
-4. Suba o servidor
+- Suba o servidor
 
 ```
 yarn start
@@ -49,7 +26,7 @@ yarn start
 ## Documentação
 
 - Next.js: para entrega de uma SPA, mas preservando os benefícios de SEO
-- Json-server: para a mock-api
+- Json-server: para a mock-api hospedado em [glitch](https://glitch.com/)
 - Axios: para requisições api com mais facilidade na manipulação dos dados
 - Rotas dinâmicas: uso das rotas dinâmicas para criar apenas uma página para cada produto
   e fazer a requisição api somente de acordo com o produto escolhido
