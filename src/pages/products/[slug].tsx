@@ -5,12 +5,12 @@ import Loading from '../../components/Loading';
 import Sidebar from '../../components/Sidebar';
 import ViewBar from '../../components/ViewBar';
 
-import { useSearch } from '../../contexts/SearchContext';
+import { ProductsType, useSearch } from '../../contexts/SearchContext';
 import { useProductsCategories } from '../../contexts/CategoriesContext';
 import api from '../../services/api';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { GetStaticPaths } from 'next';
 import Link from 'next/link';
 import Head from 'next/head';
 import {
@@ -20,14 +20,21 @@ import {
   ContainerProducts,
 } from '../../styles/pages/Products';
 
-const Products = () => {
-  const router = useRouter();
-  const { slug } = router.query;
+interface ProductsProps {
+  slug: string;
+  data: ProductsType[];
+}
+
+type Params = {
+  params: {
+    slug: string;
+  };
+};
+
+const Products = ({ slug, data }: ProductsProps) => {
   const {
     products,
     setProducts,
-    productsIsSearched,
-    setProductsIsSearched,
     productsFiltered,
     isProductsFilter,
     setIsProductsFilter,
@@ -36,54 +43,40 @@ const Products = () => {
   const { categories } = useProductsCategories();
 
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>('');
   const [productView, setProductsView] = useState<number>(0);
   const [pageName, setPageName] = useState<string | string[]>('');
   const [productOrder, setProductsOrder] = useState<string>('');
   const productsArray = isProductsFilter ? productsFiltered : products;
 
   useEffect(() => {
-    setLoading(true);
-
-    async function getProducts() {
-      try {
-        const { data } = await api.get(`/${slug}`);
-
-        setProducts(data);
-        setIsProductsFilter(false);
-        setLoading(false);
-      } catch (error) {
-        setError(error.message);
-      }
-    }
-
-    getProducts();
-    setProductsIsSearched(false);
+    setProducts(data);
+    setIsProductsFilter(false);
+    setLoading(false);
     setProductsOrder('');
     setProductsView(0);
-    setError('');
   }, [
-    slug,
+    data,
     setIsProductsFilter,
     setProducts,
-    setProductsIsSearched,
     setProductsOrder,
     setProductsView,
   ]);
 
   useEffect(() => {
-    const newCategories = categories.filter((c) => c.path === slug);
-    const nameList = newCategories.map((c) => c.name);
+    const choosedCategorie = categories.filter(
+      (categorie) => categorie.path === slug,
+    );
+    const categorieName = choosedCategorie.map((c) => c.name);
 
-    setPageName(nameList);
-  }, [slug, categories]);
+    setPageName(categorieName);
+  }, [categories, slug]);
 
   return (
     <>
       <Head>
         <title>{pageName} | WebJump Ecommerce</title>
       </Head>
-      <Header />
+      <Header productsArray={productsArray} />
 
       <MainContainer>
         <Navigation>
@@ -99,7 +92,7 @@ const Products = () => {
         </Navigation>
 
         <MainContent>
-          <Sidebar slug={slug} />
+          <Sidebar slug={slug} setProductsOrder={setProductsOrder} />
 
           <ContainerProducts>
             <div>
@@ -113,13 +106,11 @@ const Products = () => {
                 productsArray={productsArray}
               />
 
-              {productsIsSearched || isProductsFilter ? (
+              {isProductsFilter ? (
                 <p className="resultSearch">
                   {productsArray.length} resultado(s) de sua pesquisa
                 </p>
               ) : null}
-
-              <p className="errorMessage">{error}</p>
             </div>
 
             {loading ? (
@@ -155,3 +146,29 @@ const Products = () => {
 };
 
 export default Products;
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [
+      {
+        params: {
+          slug: 'camisetas',
+        },
+      },
+    ],
+    fallback: 'blocking',
+  };
+};
+
+export const getStaticProps = async ({ params }: Params) => {
+  const { slug } = params;
+  const { data } = await api.get(`/${slug}`);
+
+  return {
+    props: {
+      slug,
+      data,
+    },
+    revalidate: 60 * 60 * 24, //24h
+  };
+};
