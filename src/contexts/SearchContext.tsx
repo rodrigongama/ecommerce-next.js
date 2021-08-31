@@ -22,8 +22,6 @@ interface SearchContextData {
   setProducts: ([]) => void;
   productsFiltered: ProductsType[];
   setProductsFiltered: ([]) => void;
-  productsIsSearched: boolean;
-  setProductsIsSearched: Dispatch<React.SetStateAction<boolean>>;
   isProductsFilter: boolean;
   setIsProductsFilter: Dispatch<React.SetStateAction<boolean>>;
   filterSelected: string;
@@ -38,7 +36,6 @@ const SearchContext = createContext({} as SearchContextData);
 
 export default function SearchProvider({ children }: SearchProviderProps) {
   const [products, setProducts] = useState<ProductsType[]>([]);
-  const [productsIsSearched, setProductsIsSearched] = useState<boolean>(false);
   const [productsFiltered, setProductsFiltered] = useState<ProductsType[]>([]);
   const [isProductsFilter, setIsProductsFilter] = useState<boolean>(false);
   const [filterSelected, setFilterSelected] = useState<string>('');
@@ -49,8 +46,6 @@ export default function SearchProvider({ children }: SearchProviderProps) {
         products,
         setProducts,
         productsFiltered,
-        productsIsSearched,
-        setProductsIsSearched,
         setProductsFiltered,
         isProductsFilter,
         setIsProductsFilter,

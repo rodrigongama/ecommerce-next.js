@@ -1,3 +1,4 @@
+import { Dispatch } from 'react';
 import { useEffect, useState } from 'react';
 import { useSearch } from '../../contexts/SearchContext';
 import CategoriesFilter from '../CategoriesFilter';
@@ -7,15 +8,17 @@ import { SidebarContainer, ContainerButton } from './style';
 
 interface SidebarProps {
   slug: string | string[] | undefined;
+  setProductsOrder: Dispatch<React.SetStateAction<string>>;
 }
 
-const Sidebar = ({ slug }: SidebarProps) => {
+const Sidebar = ({ slug, setProductsOrder }: SidebarProps) => {
   const { setIsProductsFilter, setFilterSelected } = useSearch();
   const [colorSelected, setColorSelected] = useState<number | null>(null);
 
   function handleCleanFilters(): void {
     setIsProductsFilter(false);
     setFilterSelected('');
+    setProductsOrder('');
     setColorSelected(null);
   }
 

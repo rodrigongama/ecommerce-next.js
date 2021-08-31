@@ -10,7 +10,7 @@ interface ViewBarProps {
   setProductsView: Dispatch<React.SetStateAction<number>>;
   productOrder: string;
   setProductsOrder: Dispatch<React.SetStateAction<string>>;
-  productsArray: any;
+  productsArray: ProductsType[];
 }
 
 const ViewBar = ({
@@ -20,7 +20,7 @@ const ViewBar = ({
   setProductsOrder,
   productsArray,
 }: ViewBarProps) => {
-  const { setProducts } = useSearch();
+  const { setProductsFiltered } = useSearch();
 
   function handleProductOrder(value: string, productsArray: ProductsType[]) {
     setProductsOrder(value);
@@ -44,7 +44,7 @@ const ViewBar = ({
         newOrder = productsArray;
     }
 
-    setProducts(newOrder);
+    setProductsFiltered(newOrder);
   }
 
   return (
