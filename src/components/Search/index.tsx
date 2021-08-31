@@ -7,24 +7,20 @@ import useMediaQuery from '../../hooks/useMediaQuery';
 import { GiMagnifyingGlass } from 'react-icons/gi';
 import { SearchContainer, Label } from './style';
 
-interface SearchProps {
-  productsArray: ProductsType[];
-}
-
-const Search = ({ productsArray }: SearchProps) => {
-  const { setProductsFiltered, setIsProductsFilter } = useSearch();
+const Search = () => {
+  const { products, setProductsFiltered, setIsProductsFilter } = useSearch();
   const [productsSearch, setProductsSearch] = useState<string>('');
   const [isInputSearch, setIsInputSearch] = useState<boolean>(false);
 
   function handleFilterProductName(
     productsSearch: string,
-    productsArray: ProductsType[],
+    products: ProductsType[],
   ) {
     if (!productsSearch) {
       return;
     }
 
-    const filteredProducts = productsArray.filter(({ name }) => {
+    const filteredProducts = products.filter(({ name }) => {
       return handleProductName(name).includes(
         handleProductName(productsSearch),
       );
@@ -59,7 +55,7 @@ const Search = ({ productsArray }: SearchProps) => {
           onChange={({ target }) => setProductsSearch(target.value)}
         />
         <button
-          onClick={() => handleFilterProductName(productsSearch, productsArray)}
+          onClick={() => handleFilterProductName(productsSearch, products)}
         >
           Buscar
         </button>

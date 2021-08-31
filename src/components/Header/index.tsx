@@ -1,7 +1,6 @@
 import Navigation from '../Navigation';
 import Search from '../Search';
 import useMediaQuery from '../../hooks/useMediaQuery';
-import { ProductsType } from '../../contexts/SearchContext';
 
 import Link from 'next/link';
 import Image from 'next/image';
@@ -10,11 +9,7 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import { GrFormClose } from 'react-icons/gr';
 import { AcessContainer, LogoSearch, NavigationContainer } from './style';
 
-interface HeaderProps {
-  productsArray: ProductsType[];
-}
-
-const Header = ({ productsArray }: HeaderProps) => {
+const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   return (
@@ -45,7 +40,7 @@ const Header = ({ productsArray }: HeaderProps) => {
           />
         </Link>
 
-        <Search productsArray={productsArray} />
+        <Search />
       </LogoSearch>
 
       <NavigationContainer isMenuOpen={isMenuOpen}>
