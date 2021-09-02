@@ -1,13 +1,19 @@
 import { ProductsType, useSearch } from '../../contexts/SearchContext';
 import setLowerCase from '../../utils/setLowerCase';
 
-const CategoriesFilter = () => {
+interface CategoriesFilterProps {
+  slug: string;
+}
+
+const CategoriesFilter = ({ slug }: CategoriesFilterProps) => {
   const {
     products,
     setProductsFiltered,
     setIsProductsFilter,
     setFilterSelected,
   } = useSearch();
+  const productsByGender = products.map((p) => p.filter[0].gender);
+  const reduceProductsByGender = [...new Set(productsByGender)];
 
   function handleFilterProductGender(
     productGender: string,
@@ -28,30 +34,27 @@ const CategoriesFilter = () => {
     <div>
       <h3>Categorias</h3>
       <ul>
-        <li>
-          <label htmlFor="maleProduct">Masculina</label>
-          <input
-            type="radio"
-            name="maleProduct"
-            id="maleProduct"
-            value="masculina"
-            onClick={({ currentTarget }) =>
-              handleFilterProductGender(currentTarget.value, products)
-            }
-          />
-        </li>
-        <li>
-          <label htmlFor="femaleProduct">Feminina</label>
-          <input
-            type="radio"
-            name="femaleProduct"
-            id="femaleProduct"
-            value="feminina"
-            onClick={({ currentTarget }) =>
-              handleFilterProductGender(currentTarget.value, products)
-            }
-          />
-        </li>
+        {slug === 'camisetas' || slug === 'calcados' ? (
+          <>
+            <li>Masculina</li>
+            <li>Feminina</li>
+          </>
+        ) : (
+          reduceProductsByGender.map((gender, i) => (
+            <li key={i}>
+              <label htmlFor={gender}>{gender}</label>
+              <input
+                type="radio"
+                name={gender}
+                id={gender}
+                value={gender}
+                onClick={({ currentTarget }) =>
+                  handleFilterProductGender(currentTarget.value, products)
+                }
+              />
+            </li>
+          ))
+        )}
       </ul>
     </div>
   );

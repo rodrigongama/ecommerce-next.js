@@ -5,7 +5,7 @@ import setLowerCase from '../../utils/setLowerCase';
 import { ContainerColors } from './style';
 
 interface ColorsFilterProps {
-  slug: string | string[] | undefined;
+  slug: string;
   colorSelected: number | null;
   setColorSelected: Dispatch<React.SetStateAction<number | null>>;
 }

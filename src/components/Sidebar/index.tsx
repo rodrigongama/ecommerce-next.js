@@ -7,7 +7,7 @@ import TypesFilter from '../TypesFilter';
 import { SidebarContainer, ContainerButton } from './style';
 
 interface SidebarProps {
-  slug: string | string[] | undefined;
+  slug: string;
   setProductsOrder: Dispatch<React.SetStateAction<string>>;
 }
 
@@ -30,7 +30,7 @@ const Sidebar = ({ slug, setProductsOrder }: SidebarProps) => {
     <SidebarContainer>
       <h2>Filtre por</h2>
 
-      <CategoriesFilter />
+      <CategoriesFilter slug={slug} />
 
       <ColorsFilter
         slug={slug}
