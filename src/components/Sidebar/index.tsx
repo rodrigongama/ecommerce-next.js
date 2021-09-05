@@ -1,9 +1,7 @@
 import { Dispatch } from 'react';
 import { useEffect, useState } from 'react';
 import { useSearch } from '../../contexts/SearchContext';
-import CategoriesFilter from '../CategoriesFilter';
-import ColorsFilter from '../ColorsFilter';
-import TypesFilter from '../TypesFilter';
+import { CategoriesFilter, ColorsFilter, TypesFilter } from '../index';
 import { SidebarContainer, ContainerButton } from './style';
 
 interface SidebarProps {

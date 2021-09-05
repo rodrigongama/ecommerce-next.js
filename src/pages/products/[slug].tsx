@@ -1,9 +1,5 @@
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-import Product from '../../components/Product';
-import Loading from '../../components/Loading';
-import Sidebar from '../../components/Sidebar';
-import ViewBar from '../../components/ViewBar';
+// prettier-ignore
+import { Header, Footer, Product, Loading, Sidebar, ViewBar, Search } from '../../components';
 
 import { ProductsType, useSearch } from '../../contexts/SearchContext';
 import { useProductsCategories } from '../../contexts/CategoriesContext';

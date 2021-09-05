@@ -1,6 +1,4 @@
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Navigation from '../components/Navigation';
+import { Header, Footer, Navigation, Overlay, Loading } from '../components';
 import Head from 'next/head';
 import { MainContainer, BackgroundContainer } from '../styles/pages/home';
 

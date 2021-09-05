@@ -1,5 +1,4 @@
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import { Header, Footer } from '../components';
 import Head from 'next/head';
 import { ContainerContact, ContainerAdress } from '../styles/pages/contact';
 
