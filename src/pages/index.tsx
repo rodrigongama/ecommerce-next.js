@@ -1,13 +1,23 @@
 import { Header, Footer, Navigation, Overlay, Loading } from '../components';
 import Head from 'next/head';
 import { MainContainer, BackgroundContainer } from '../styles/pages/home';
+import { useProductsCategories } from '../contexts/CategoriesContext';
 
 const Home = () => {
+  const { initialLoading } = useProductsCategories();
+
   return (
     <>
       <Head>
         <title>Home | WebJump Ecommerce</title>
       </Head>
+
+      {initialLoading && (
+        <Overlay>
+          <Loading />
+        </Overlay>
+      )}
+
       <Header />
 
       <MainContainer>
