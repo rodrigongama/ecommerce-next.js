@@ -34,12 +34,7 @@ const CategoriesFilter = ({ slug }: CategoriesFilterProps) => {
     <div>
       <h3>Categorias</h3>
       <ul>
-        {slug === 'camisetas' || slug === 'calcados' ? (
-          <>
-            <li>Masculina</li>
-            <li>Feminina</li>
-          </>
-        ) : (
+        {slug === 'calcas' ? (
           reduceProductsByGender.map((gender, i) => (
             <li key={i}>
               <label htmlFor={gender}>{gender}</label>
@@ -54,6 +49,11 @@ const CategoriesFilter = ({ slug }: CategoriesFilterProps) => {
               />
             </li>
           ))
+        ) : (
+          <>
+            <li>Masculina</li>
+            <li>Feminina</li>
+          </>
         )}
       </ul>
     </div>
