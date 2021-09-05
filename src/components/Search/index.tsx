@@ -1,39 +1,14 @@
 import { useState } from 'react';
-import { ProductsType, useSearch } from '../../contexts/SearchContext';
-import setLowerCase from '../../utils/setLowerCase';
-import replaceSpecialChars from '../../utils/replaceSpecialChars';
+import { useSearch } from '../../contexts/SearchContext';
 import useMediaQuery from '../../hooks/useMediaQuery';
 
+import Link from 'next/link';
 import { GiMagnifyingGlass } from 'react-icons/gi';
 import { SearchContainer, Label } from './style';
 
 const Search = () => {
-  const { products, setProductsFiltered, setIsProductsFilter } = useSearch();
-  const [productsSearch, setProductsSearch] = useState<string>('');
+  const { productsSearch, setProductsSearch } = useSearch();
   const [isInputSearch, setIsInputSearch] = useState<boolean>(false);
-
-  function handleFilterProductName(
-    productsSearch: string,
-    products: ProductsType[],
-  ) {
-    if (!productsSearch) {
-      return;
-    }
-
-    const filteredProducts = products.filter(({ name }) => {
-      return handleProductName(name).includes(
-        handleProductName(productsSearch),
-      );
-    });
-
-    setIsProductsFilter(true);
-    setProductsFiltered(filteredProducts);
-    setProductsSearch('');
-  }
-
-  function handleProductName(productName: string) {
-    return replaceSpecialChars(setLowerCase(productName));
-  }
 
   return (
     <SearchContainer>
@@ -54,11 +29,10 @@ const Search = () => {
           value={productsSearch}
           onChange={({ target }) => setProductsSearch(target.value)}
         />
-        <button
-          onClick={() => handleFilterProductName(productsSearch, products)}
-        >
-          Buscar
-        </button>
+
+        <Link href={`/search-products/${productsSearch}`}>
+          <button>Buscar</button>
+        </Link>
       </div>
     </SearchContainer>
   );
