@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useSearch } from '../../contexts/SearchContext';
 import useMediaQuery from '../../hooks/useMediaQuery';
 
 import Link from 'next/link';
@@ -7,7 +6,7 @@ import { GiMagnifyingGlass } from 'react-icons/gi';
 import { SearchContainer, Label } from './style';
 
 const Search = () => {
-  const { productsSearch, setProductsSearch } = useSearch();
+  const [productsSearch, setProductsSearch] = useState<string>('');
   const [isInputSearch, setIsInputSearch] = useState<boolean>(false);
 
   return (
@@ -30,8 +29,8 @@ const Search = () => {
           onChange={({ target }) => setProductsSearch(target.value)}
         />
 
-        <Link href={`/search-products/${productsSearch}`}>
-          <button>Buscar</button>
+        <Link href={`/search-products/${productsSearch}`} passHref>
+          <button onClick={() => setProductsSearch('')}>Buscar</button>
         </Link>
       </div>
     </SearchContainer>
