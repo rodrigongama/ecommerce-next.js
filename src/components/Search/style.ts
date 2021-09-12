@@ -6,7 +6,7 @@ interface LabelSearchProps {
 
 export const SearchContainer = styled.div`
   position: relative;
-
+  margin-right: 40px;
   div {
     height: 40px;
     @media (max-width: 765px) {
@@ -14,7 +14,7 @@ export const SearchContainer = styled.div`
     }
     input {
       height: 100%;
-      width: 350px;
+      width: 250px;
       padding: 10px;
     }
     button {

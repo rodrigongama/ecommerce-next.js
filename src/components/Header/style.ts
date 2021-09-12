@@ -39,6 +39,7 @@ export const LogoSearch = styled.div`
   max-width: 980px;
   margin: 10px auto;
   height: 90px;
+  position: relative;
   @media (max-width: 999px) {
     padding: 0 10px;
   }

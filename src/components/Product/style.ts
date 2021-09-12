@@ -15,6 +15,7 @@ export const ContainerImage = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   img {
     height: 80%;
     width: 80%;

@@ -1,5 +1,8 @@
+import { useProductsShopping } from '../../contexts/ShoppingContext';
+import { useSearch, ProductsType } from '../../contexts/SearchContext';
 import formatValue from '../../utils/formatValue';
 import Image from 'next/image';
+import Link from 'next/link'
 import {
   Container,
   ContainerImage,
@@ -11,17 +14,31 @@ import {
 } from './style';
 
 interface ProductProps {
+  id: number;
   name: string;
   price: number;
   image: string;
   specialPrice?: number;
 }
 
-const Product = ({ name, price, image, specialPrice }: ProductProps) => {
+const Product = ({ name, price, image, specialPrice, id }: ProductProps) => {
+  const { shoppingCart, setShoppingCart } = useProductsShopping();
+  const { products } = useSearch();
+
+  function handleProductPurchase(productId: number, products: ProductsType[]) {
+    const purchasedProduct = products.filter(
+      (product) => product.id === productId,
+    );
+
+    setShoppingCart([...shoppingCart, purchasedProduct]);
+  }
+
   return (
     <Container>
       <ContainerImage>
-        <Image width={300} height={300} src={image} alt={name} />
+        <Link href={`/search-products/${name}`} passHref>
+          <Image width={300} height={300} src={image} alt={name} />
+        </Link>
       </ContainerImage>
 
       <ContainerInfo>
@@ -37,7 +54,9 @@ const Product = ({ name, price, image, specialPrice }: ProductProps) => {
             <ProductPrice>{formatValue(price)}</ProductPrice>
           )}
 
-          <button>Comprar</button>
+          <button onClick={() => handleProductPurchase(id, products)}>
+            Comprar
+          </button>
         </ContentInfo>
       </ContainerInfo>
     </Container>

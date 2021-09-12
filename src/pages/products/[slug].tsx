@@ -3,8 +3,10 @@ import { Header, Footer, Product, Loading, Sidebar, ViewBar, Search } from '../.
 
 import { ProductsType, useSearch } from '../../contexts/SearchContext';
 import { useProductsCategories } from '../../contexts/CategoriesContext';
+import { useProductsShopping } from '../../contexts/ShoppingContext';
 import api from '../../services/api';
 
+import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { useEffect, useState } from 'react';
 import { GetStaticPaths } from 'next';
 import Link from 'next/link';
@@ -12,6 +14,7 @@ import Head from 'next/head';
 import {
   MainContainer,
   Navigation,
+  CartContainer,
   MainContent,
   ContainerProducts,
 } from '../../styles/pages/Products';
@@ -35,13 +38,15 @@ const Products = ({ slug, data }: ProductsProps) => {
     isProductsFilter,
     setIsProductsFilter,
     filterSelected,
+    productView,
+    setProductsView,
+    setProductsOrder,
   } = useSearch();
   const { categories } = useProductsCategories();
+  const { shoppingCart } = useProductsShopping()
 
   const [loading, setLoading] = useState<boolean>(true);
-  const [productView, setProductsView] = useState<number>(0);
   const [pageName, setPageName] = useState<string | string[]>('');
-  const [productOrder, setProductsOrder] = useState<string>('');
   const productsArray = isProductsFilter ? productsFiltered : products;
 
   useEffect(() => {
@@ -72,7 +77,16 @@ const Products = ({ slug, data }: ProductsProps) => {
       <Head>
         <title>{pageName} | WebJump Ecommerce</title>
       </Head>
-      <Header />
+      
+      <Header>
+        <Search />
+        <Link href="/shopping-cart" passHref>
+          <CartContainer>
+            <AiOutlineShoppingCart />
+            {shoppingCart.length === 0 ? null : shoppingCart.length}
+          </CartContainer> 
+        </Link>
+      </Header>
 
       <MainContainer>
         <Navigation>
@@ -97,8 +111,6 @@ const Products = ({ slug, data }: ProductsProps) => {
               <ViewBar
                 productView={productView}
                 setProductsView={setProductsView}
-                productOrder={productOrder}
-                setProductsOrder={setProductsOrder}
                 productsArray={productsArray}
               />
 
@@ -127,6 +139,7 @@ const Products = ({ slug, data }: ProductsProps) => {
                       price={price}
                       image={image}
                       specialPrice={specialPrice}
+                      id={id}
                     />
                   ),
                 )}

@@ -4,6 +4,7 @@ export const MainContainer = styled.main`
   max-width: 980px;
   margin: 10px auto;
   color: ${(props) => props.theme.textSecondary};
+  position: relative;
   @media (max-width: 999px) {
     padding: 0 10px;
   }
@@ -97,3 +98,16 @@ export const ContainerProducts = styled.div`
     }
   }
 `;
+
+export const CartContainer = styled.div`
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+
+  svg {
+    width: 25px;
+    height: 25px;
+  }
+`
