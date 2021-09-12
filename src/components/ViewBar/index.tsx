@@ -3,24 +3,19 @@ import replaceSpecialChars from '../../utils/replaceSpecialChars';
 
 import { MdViewModule, MdViewList } from 'react-icons/md';
 import { ContainerView, ContainerOrder } from './style';
-import { Dispatch } from 'react';
 
 interface ViewBarProps {
   productView: number;
-  setProductsView: Dispatch<React.SetStateAction<number>>;
-  productOrder: string;
-  setProductsOrder: Dispatch<React.SetStateAction<string>>;
+  setProductsView: (value: number) => void;
   productsArray: ProductsType[];
 }
 
 const ViewBar = ({
   productView,
   setProductsView,
-  productOrder,
-  setProductsOrder,
   productsArray,
 }: ViewBarProps) => {
-  const { setProductsFiltered } = useSearch();
+  const { setProductsFiltered, productOrder, setProductsOrder } = useSearch();
 
   function handleProductOrder(value: string, productsArray: ProductsType[]) {
     setProductsOrder(value);

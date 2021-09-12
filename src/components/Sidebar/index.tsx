@@ -1,4 +1,3 @@
-import { Dispatch } from 'react';
 import { useEffect, useState } from 'react';
 import { useSearch } from '../../contexts/SearchContext';
 import { CategoriesFilter, ColorsFilter, TypesFilter } from '../index';
@@ -6,7 +5,7 @@ import { SidebarContainer, ContainerButton } from './style';
 
 interface SidebarProps {
   slug: string;
-  setProductsOrder: Dispatch<React.SetStateAction<string>>;
+  setProductsOrder: (value: string) => void;
 }
 
 const Sidebar = ({ slug, setProductsOrder }: SidebarProps) => {

@@ -1,4 +1,3 @@
-import { Dispatch } from 'react';
 import { ProductsType, useSearch } from '../../contexts/SearchContext';
 import includesColorCode from '../../utils/includesColorCode';
 import setLowerCase from '../../utils/setLowerCase';
@@ -7,7 +6,7 @@ import { ContainerColors } from './style';
 interface ColorsFilterProps {
   slug: string;
   colorSelected: number | null;
-  setColorSelected: Dispatch<React.SetStateAction<number | null>>;
+  setColorSelected: (value: number | null) => void;
 }
 
 const ColorsFilter = ({

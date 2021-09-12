@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { createContext, useState, useContext } from 'react';
 
 export interface ProductsType {
@@ -19,13 +19,18 @@ type Filters = {
 
 interface SearchContextData {
   products: ProductsType[];
-  setProducts: ([]) => void;
   productsFiltered: ProductsType[];
-  setProductsFiltered: ([]) => void;
+  setProducts: ([]: ProductsType[]) => void;
+  setProductsFiltered: ([]: ProductsType[]) => void;
   isProductsFilter: boolean;
-  setIsProductsFilter: Dispatch<React.SetStateAction<boolean>>;
+  setIsProductsFilter: (value: boolean) => void;
   filterSelected: string;
-  setFilterSelected: Dispatch<React.SetStateAction<string>>;
+  setFilterSelected: (value: string) => void;
+  productView: number;
+  setProductsView: (value: number) => void;
+  productOrder: string;
+  setProductsOrder: (value: string) => void;
+  productsArray: ProductsType[];
 }
 
 interface SearchProviderProps {
@@ -39,6 +44,9 @@ export default function SearchProvider({ children }: SearchProviderProps) {
   const [productsFiltered, setProductsFiltered] = useState<ProductsType[]>([]);
   const [isProductsFilter, setIsProductsFilter] = useState<boolean>(false);
   const [filterSelected, setFilterSelected] = useState<string>('');
+  const [productView, setProductsView] = useState<number>(0);
+  const [productOrder, setProductsOrder] = useState<string>('');
+  const productsArray = isProductsFilter ? productsFiltered : products;
 
   return (
     <SearchContext.Provider
@@ -51,6 +59,11 @@ export default function SearchProvider({ children }: SearchProviderProps) {
         setIsProductsFilter,
         filterSelected,
         setFilterSelected,
+        productView,
+        setProductsView,
+        productOrder,
+        setProductsOrder,
+        productsArray,
       }}
     >
       {children}
