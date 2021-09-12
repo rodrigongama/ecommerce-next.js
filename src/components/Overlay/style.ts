@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const OverlayContainer = styled.div`
   width: 100vw;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   right: 0;

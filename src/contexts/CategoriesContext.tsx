@@ -10,6 +10,7 @@ interface Categories {
 
 interface CategoriesContextData {
   categories: Categories[];
+  initialLoading: boolean;
 }
 
 interface CategoriesProviderProps {
@@ -22,6 +23,7 @@ export default function CategoriesProvider({
   children,
 }: CategoriesProviderProps) {
   const [categories, setCategories] = useState<Categories[]>([]);
+  const [initialLoading, setInitialLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function getCategories() {
@@ -29,8 +31,9 @@ export default function CategoriesProvider({
         const { data } = await api.get('/list');
 
         setCategories(data);
+        setInitialLoading(false);
       } catch (error) {
-        console.log(error.message);
+        console.log(error);
       }
     }
 
@@ -41,6 +44,7 @@ export default function CategoriesProvider({
     <CategoriesContext.Provider
       value={{
         categories,
+        initialLoading,
       }}
     >
       {children}

@@ -1,17 +1,20 @@
 import Navigation from '../Navigation';
-import Search from '../Search';
 import useMediaQuery from '../../hooks/useMediaQuery';
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { GrFormClose } from 'react-icons/gr';
 import { AcessContainer, LogoSearch, NavigationContainer } from './style';
 
-const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+interface HeaderProps {
+  children?: ReactNode;
+}
 
+const Header = ({ children }: HeaderProps) => {
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  
   return (
     <header>
       <AcessContainer>
@@ -40,7 +43,7 @@ const Header = () => {
           />
         </Link>
 
-        <Search />
+        {children}
       </LogoSearch>
 
       <NavigationContainer isMenuOpen={isMenuOpen}>
