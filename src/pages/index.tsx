@@ -21,9 +21,7 @@ const Home = () => {
       <Header />
 
       <MainContainer>
-        <aside>
-          <Navigation />
-        </aside>
+        <aside></aside>
 
         <div>
           <BackgroundContainer></BackgroundContainer>
