@@ -14,7 +14,7 @@ interface HeaderProps {
 
 const Header = ({ children }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  
+
   return (
     <header>
       <AcessContainer>
@@ -53,7 +53,7 @@ const Header = ({ children }: HeaderProps) => {
             className="menuIconClose"
           />
         )}
-        <Navigation />
+        <Navigation setIsMenuOpen={setIsMenuOpen} />
       </NavigationContainer>
     </header>
   );

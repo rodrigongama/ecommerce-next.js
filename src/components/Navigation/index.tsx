@@ -1,12 +1,16 @@
 import Link from 'next/link';
 import { useProductsCategories } from '../../contexts/CategoriesContext';
 
-const Navigation = () => {
+interface NavigationProps {
+  setIsMenuOpen: (value: boolean) => void;
+}
+
+const Navigation = ({ setIsMenuOpen }: NavigationProps) => {
   const { categories } = useProductsCategories();
 
   return (
     <nav>
-      <ul>
+      <ul onClick={() => setIsMenuOpen(false)}>
         <li>
           <Link href="/">Página Inicial</Link>
         </li>
