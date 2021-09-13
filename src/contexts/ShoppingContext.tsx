@@ -5,8 +5,8 @@ import { ProductsType } from './SearchContext';
 interface ShoppingContextData {
   shoppingCart: ProductsType[][];
   setShoppingCart: ([]: ProductsType[][]) => void;
-  purchaseData: any
-  setPurchaseData: ({}) => void
+  purchaseData: PurchaseType;
+  setPurchaseData: (value: PurchaseType) => void;
 }
 
 interface ShoppingProviderProps {
@@ -14,8 +14,8 @@ interface ShoppingProviderProps {
 }
 
 interface PurchaseType {
-  id: number;
-  total: number;
+  id: string;
+  total: string;
   data: ProductsType[];
 }
 
@@ -23,15 +23,17 @@ const ShoppingContext = createContext({} as ShoppingContextData);
 
 export default function ShoppingProvider({ children }: ShoppingProviderProps) {
   const [shoppingCart, setShoppingCart] = useState<ProductsType[][]>([]);
-  const [purchaseData, setPurchaseData] = useState({});
+  const [purchaseData, setPurchaseData] = useState<PurchaseType>(
+    {} as PurchaseType,
+  );
 
   return (
     <ShoppingContext.Provider
       value={{
         shoppingCart,
         setShoppingCart,
-        purchaseData, 
-        setPurchaseData
+        purchaseData,
+        setPurchaseData,
       }}
     >
       {children}
