@@ -1,6 +1,5 @@
 import { ProductsType, useSearch } from '../../contexts/SearchContext';
-import includesColorCode from '../../utils/includesColorCode';
-import setLowerCase from '../../utils/setLowerCase';
+import { includesColorCode, setLowerCase } from '../../utils';
 import { ContainerColors } from './style';
 
 interface ColorsFilterProps {

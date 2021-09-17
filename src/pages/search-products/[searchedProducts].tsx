@@ -1,19 +1,18 @@
 //prettier-ignore
 import { Header, Footer, Product, ViewBar, Overlay, Loading } from '../../components';
-import { ProductsType, useSearch } from "../../contexts/SearchContext";
-import replaceSpecialChars from "../../utils/replaceSpecialChars";
-import setLowerCase from "../../utils/setLowerCase";
+import { ProductsType, useSearch } from '../../contexts/SearchContext';
+import { replaceSpecialChars, setLowerCase } from '../../utils';
 
-import { useRouter } from "next/router";
-import Link from "next/link";
-import Head from "next/head";
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import Head from 'next/head';
 import {
   MainContainer,
   Navigation,
   MainContent,
   ContainerProducts,
-} from "../../styles/pages/Products";
-import { useEffect, useState } from "react";
+} from '../../styles/pages/Products';
+import { useEffect, useState } from 'react';
 
 const SearchedProducts = () => {
   const router = useRouter();
@@ -30,7 +29,7 @@ const SearchedProducts = () => {
 
   function handleFilterProductName(
     searchedProducts: any,
-    products: ProductsType[]
+    products: ProductsType[],
   ) {
     if (!searchedProducts) {
       return;
@@ -38,7 +37,7 @@ const SearchedProducts = () => {
 
     const filteredProducts = products.filter(({ name }) => {
       return handleProductName(name).includes(
-        handleProductName(searchedProducts)
+        handleProductName(searchedProducts),
       );
     });
 
@@ -80,7 +79,7 @@ const SearchedProducts = () => {
           <p>{searchedProducts}</p>
         </Navigation>
 
-        <MainContent style={{ justifyContent: "center" }}>
+        <MainContent style={{ justifyContent: 'center' }}>
           <ContainerProducts>
             <div>
               <ViewBar
@@ -97,8 +96,8 @@ const SearchedProducts = () => {
             <div
               className={
                 productView === 0
-                  ? "contentProductsGrid"
-                  : "contentProductsList"
+                  ? 'contentProductsGrid'
+                  : 'contentProductsList'
               }
             >
               {productsFiltered.map(
@@ -111,7 +110,7 @@ const SearchedProducts = () => {
                     specialPrice={specialPrice}
                     id={id}
                   />
-                )
+                ),
               )}
             </div>
           </ContainerProducts>
