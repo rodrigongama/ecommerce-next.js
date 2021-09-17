@@ -1,8 +1,12 @@
-import { useProductsShopping } from '../../contexts/ShoppingContext';
+import {
+  CartProductsType,
+  useProductsShopping,
+} from '../../contexts/ShoppingContext';
 import { useSearch, ProductsType } from '../../contexts/SearchContext';
-import formatValue from '../../utils/formatValue';
+import { formatValue, handlePurchaseTotal } from '../../utils';
+
 import Image from 'next/image';
-import Link from 'next/link'
+import Link from 'next/link';
 import {
   Container,
   ContainerImage,
@@ -25,12 +29,33 @@ const Product = ({ name, price, image, specialPrice, id }: ProductProps) => {
   const { shoppingCart, setShoppingCart } = useProductsShopping();
   const { products } = useSearch();
 
-  function handleProductPurchase(productId: number, products: ProductsType[]) {
-    const purchasedProduct = products.filter(
+  function handleProductPurchase(
+    productId: number,
+    products: any,
+    shoppingCart: CartProductsType[],
+  ) {
+    const purchasedProduct = products.find(
+      (product: any) => product.id === productId,
+    );
+
+    const cartProduct = shoppingCart.find(
       (product) => product.id === productId,
     );
 
-    setShoppingCart([...shoppingCart, purchasedProduct]);
+    const finalProducts = shoppingCart.filter(
+      (product) => product.id !== productId,
+    );
+
+    setShoppingCart([
+      ...finalProducts,
+      {
+        ...purchasedProduct,
+        purchase_quantity: cartProduct ? cartProduct.purchase_quantity + 1 : 1,
+        purchase_total: cartProduct
+          ? handlePurchaseTotal(cartProduct.purchase_quantity + 1, price)
+          : price,
+      },
+    ]);
   }
 
   return (
@@ -54,7 +79,9 @@ const Product = ({ name, price, image, specialPrice, id }: ProductProps) => {
             <ProductPrice>{formatValue(price)}</ProductPrice>
           )}
 
-          <button onClick={() => handleProductPurchase(id, products)}>
+          <button
+            onClick={() => handleProductPurchase(id, products, shoppingCart)}
+          >
             Comprar
           </button>
         </ContentInfo>

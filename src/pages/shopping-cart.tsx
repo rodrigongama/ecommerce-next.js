@@ -1,76 +1,102 @@
-import { Header, Footer } from "../components";
-import formatValue from "../utils/formatValue";
-import { ProductsType } from "../contexts/SearchContext";
-import { useProductsShopping } from "../contexts/ShoppingContext";
-import { getNewId } from "../services/idService";
-import api from "../services/api";
+import { Header, Footer } from '../components';
+import { formatValue, handlePurchaseTotal } from '../utils';
+import {
+  CartProductsType,
+  useProductsShopping,
+} from '../contexts/ShoppingContext';
+import { getNewId } from '../services/idService';
+import api from '../services/api';
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import Head from "next/head";
-import Link from "next/link";
-import { GrTrash } from "react-icons/gr";
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { GrTrash } from 'react-icons/gr';
 import {
   ContainerCart,
   ContainerButtons,
   ContainerTotalPrice,
-} from "../styles/pages/ShoppingCart";
-import { useRouter } from "next/router";
+} from '../styles/pages/ShoppingCart';
+
+const INCREMENT_QUANTITY = 1;
+const DECREMENT_QUANTITY = -1;
 
 const ShoppingCart = () => {
   const { shoppingCart, setShoppingCart, purchaseData, setPurchaseData } =
     useProductsShopping();
-  const PRODUCTS_CART = shoppingCart.map((p) => p[0]);
-  const [productsData, setProductsData] = useState(PRODUCTS_CART);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const router = useRouter();
 
-  function reduceProductsPrice(productsData: ProductsType[]) {
-    const prices = productsData.map((p) => p.price);
+  function reduceProductsPrice(shoppingCart: CartProductsType[]) {
+    const prices = shoppingCart.map((p) => p.purchase_total);
     setTotalPrice(prices.reduce((acc, cc) => acc + cc));
   }
 
-  function handleDeleteProduct(id: number, productsData: ProductsType[]) {
-    const newShoppingData = productsData.filter((product) => product.id !== id);
-    setProductsData(newShoppingData);
+  function handleDeleteProduct(id: number, shoppingCart: CartProductsType[]) {
+    const newShoppingData = shoppingCart.filter((product) => product.id !== id);
+    setShoppingCart(newShoppingData);
     handleTotalPrice(newShoppingData);
   }
 
-  function handleTotalPrice(productsDataArray: ProductsType[]) {
-    if (productsDataArray.length === 0) {
+  function handleTotalPrice(cartProducts: CartProductsType[]) {
+    if (cartProducts.length === 0) {
       handleCleanCart();
       return;
     }
 
-    reduceProductsPrice(productsDataArray);
+    reduceProductsPrice(cartProducts);
+  }
+
+  async function purchaseProducts(shoppingCart: CartProductsType[]) {
+    router.push('/purchase-made');
+    setPurchaseData({
+      id: getNewId(),
+      total: formatValue(totalPrice),
+      data: shoppingCart,
+    });
+
+    try {
+      await api.post('/compras', purchaseData);
+      handleCleanCart();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function handleCleanCart() {
-    setProductsData([]);
     setShoppingCart([]);
     setTotalPrice(0);
   }
 
-  async function purchaseProducts(productsData: ProductsType[]) {
-    router.push("/purchase-made");
-    setPurchaseData({
-      id: getNewId(),
-      total: formatValue(totalPrice),
-      data: productsData,
-    });
+  function handleProductQuantity(
+    id: number,
+    quantity_operation: number,
+    shoppingCart: any,
+  ) {
+    const currentProduct = shoppingCart.find(
+      (product: any) => product.id === id,
+    );
+    const finalProducts = shoppingCart.filter(
+      (product: any) => product.id !== id,
+    );
 
-    try {
-      await api.post("/compras", purchaseData);
-    } catch (error) {
-      console.log(error);
-    }
-
-    handleCleanCart();
+    setShoppingCart([
+      ...finalProducts,
+      {
+        ...currentProduct,
+        purchase_quantity:
+          currentProduct.purchase_quantity + quantity_operation,
+        purchase_total: handlePurchaseTotal(
+          currentProduct.purchase_quantity + quantity_operation,
+          currentProduct.price,
+        ),
+      },
+    ]);
   }
 
   useEffect(() => {
-    handleTotalPrice(productsData);
-  }, []);
+    handleTotalPrice(shoppingCart);
+  }, [shoppingCart]);
 
   return (
     <>
@@ -81,8 +107,8 @@ const ShoppingCart = () => {
       <ContainerCart>
         <h1>Carrinho de Compras</h1>
 
-        {productsData.length === 0 ? (
-          "Carrinho vazio"
+        {shoppingCart.length === 0 ? (
+          'Carrinho vazio'
         ) : (
           <>
             <table>
@@ -95,20 +121,52 @@ const ShoppingCart = () => {
               </thead>
 
               <tbody>
-                {productsData.map(({ id, image, name, price }) => (
-                  <tr key={id}>
-                    <td>
-                      <Image width={150} height={150} src={image} alt={name} />
-                    </td>
-                    <td>{name}</td>
-                    <td>{formatValue(price)}</td>
-                    <td>
-                      <GrTrash
-                        onClick={() => handleDeleteProduct(id, productsData)}
-                      />
-                    </td>
-                  </tr>
-                ))}
+                {shoppingCart.map(
+                  ({ id, image, name, price, purchase_quantity }) => (
+                    <tr key={id}>
+                      <td>
+                        <Image
+                          width={150}
+                          height={150}
+                          src={image}
+                          alt={name}
+                        />
+                      </td>
+                      <td>{name}</td>
+                      <td>{formatValue(price)}</td>
+                      <td>
+                        <button
+                          onClick={() =>
+                            handleProductQuantity(
+                              id,
+                              DECREMENT_QUANTITY,
+                              shoppingCart,
+                            )
+                          }
+                        >
+                          {'-'}
+                        </button>
+                        {purchase_quantity}
+                        <button
+                          onClick={() =>
+                            handleProductQuantity(
+                              id,
+                              INCREMENT_QUANTITY,
+                              shoppingCart,
+                            )
+                          }
+                        >
+                          {'+'}
+                        </button>
+                      </td>
+                      <td>
+                        <GrTrash
+                          onClick={() => handleDeleteProduct(id, shoppingCart)}
+                        />
+                      </td>
+                    </tr>
+                  ),
+                )}
               </tbody>
             </table>
 
@@ -116,7 +174,7 @@ const ShoppingCart = () => {
 
             <ContainerButtons>
               <button onClick={handleCleanCart}>Limpar Carrinho</button>
-              <button onClick={() => purchaseProducts(productsData)}>
+              <button onClick={() => purchaseProducts(shoppingCart)}>
                 Finalizar Compra
               </button>
             </ContainerButtons>
