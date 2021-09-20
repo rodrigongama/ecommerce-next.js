@@ -1,4 +1,4 @@
-import { Header, Footer } from '../components';
+import { Header, Footer, ShoppingCart } from '../components';
 import Head from 'next/head';
 import { ContainerContact, ContainerAdress } from '../styles/pages/contact';
 
@@ -8,7 +8,9 @@ const Contact = () => {
       <Head>
         <title>Contato | WebJump Ecommerce</title>
       </Head>
-      <Header />
+      <Header>
+        <ShoppingCart />
+      </Header>
 
       <ContainerContact>
         <h2>SÃO PAULO</h2>

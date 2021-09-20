@@ -1,12 +1,10 @@
 // prettier-ignore
-import { Header, Footer, Product, Loading, Sidebar, ViewBar, Search } from '../../components';
+import { Header, Footer, Product, Loading, Sidebar, ViewBar, Search, ShoppingCart } from '../../components';
 
 import { ProductsType, useSearch } from '../../contexts/SearchContext';
 import { useProductsCategories } from '../../contexts/CategoriesContext';
-import { useProductsShopping } from '../../contexts/ShoppingContext';
 import api from '../../services/api';
 
-import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { useEffect, useState } from 'react';
 import { GetStaticPaths } from 'next';
 import Link from 'next/link';
@@ -14,7 +12,6 @@ import Head from 'next/head';
 import {
   MainContainer,
   Navigation,
-  CartContainer,
   MainContent,
   ContainerProducts,
 } from '../../styles/pages/Products';
@@ -43,7 +40,6 @@ const Products = ({ slug, data }: ProductsProps) => {
     setProductsOrder,
   } = useSearch();
   const { categories } = useProductsCategories();
-  const { shoppingCart } = useProductsShopping()
 
   const [loading, setLoading] = useState<boolean>(true);
   const [pageName, setPageName] = useState<string | string[]>('');
@@ -77,15 +73,10 @@ const Products = ({ slug, data }: ProductsProps) => {
       <Head>
         <title>{pageName} | WebJump Ecommerce</title>
       </Head>
-      
+
       <Header>
         <Search />
-        <Link href="/shopping-cart" passHref>
-          <CartContainer>
-            <AiOutlineShoppingCart />
-            {shoppingCart.length === 0 ? null : shoppingCart.length}
-          </CartContainer> 
-        </Link>
+        <ShoppingCart />
       </Header>
 
       <MainContainer>

@@ -1,4 +1,4 @@
-import { Header, Footer, Overlay, Loading } from '../components';
+import { Header, Footer, Overlay, Loading, ShoppingCart } from '../components';
 import Head from 'next/head';
 import { MainContainer, BackgroundContainer } from '../styles/pages/home';
 import { useProductsCategories } from '../contexts/CategoriesContext';
@@ -18,7 +18,9 @@ const Home = () => {
         </Overlay>
       )}
 
-      <Header />
+      <Header>
+        <ShoppingCart />
+      </Header>
 
       <MainContainer>
         <aside></aside>

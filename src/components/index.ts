@@ -10,6 +10,7 @@ import Search from '../components/Search';
 import Sidebar from '../components/Sidebar';
 import TypesFilter from '../components/TypesFilter';
 import ViewBar from '../components/ViewBar';
+import ShoppingCart from '../components/ShoppingCart';
 
 export {
   CategoriesFilter,
@@ -24,4 +25,5 @@ export {
   Sidebar,
   TypesFilter,
   ViewBar,
+  ShoppingCart,
 };
