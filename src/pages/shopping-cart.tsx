@@ -12,8 +12,10 @@ import Image from 'next/image';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { GrTrash } from 'react-icons/gr';
+import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
 import {
   ContainerCart,
+  ButtonsQuantity,
   ContainerButtons,
   ContainerTotalPrice,
 } from '../styles/pages/ShoppingCart';
@@ -117,6 +119,7 @@ const ShoppingCart = () => {
                   <th></th>
                   <th>Produto</th>
                   <th>Preço</th>
+                  <th>Quantidade</th>
                 </tr>
               </thead>
 
@@ -134,8 +137,9 @@ const ShoppingCart = () => {
                       </td>
                       <td>{name}</td>
                       <td>{formatValue(price)}</td>
-                      <td>
+                      <ButtonsQuantity>
                         <button
+                          disabled={purchase_quantity <= 1 ? true : false}
                           onClick={() =>
                             handleProductQuantity(
                               id,
@@ -144,9 +148,10 @@ const ShoppingCart = () => {
                             )
                           }
                         >
-                          {'-'}
+                          <AiOutlineMinusCircle />
                         </button>
-                        {purchase_quantity}
+
+                        <p>{purchase_quantity}</p>
                         <button
                           onClick={() =>
                             handleProductQuantity(
@@ -156,9 +161,9 @@ const ShoppingCart = () => {
                             )
                           }
                         >
-                          {'+'}
+                          <AiOutlinePlusCircle />
                         </button>
-                      </td>
+                      </ButtonsQuantity>
                       <td>
                         <GrTrash
                           onClick={() => handleDeleteProduct(id, shoppingCart)}
