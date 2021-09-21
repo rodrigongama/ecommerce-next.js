@@ -5,10 +5,18 @@ interface LabelSearchProps {
 }
 
 export const SearchContainer = styled.div`
-  position: relative;
-  margin-right: 40px;
+  position: absolute;
+  right: 40px;
+  @media (min-width: 765px) {
+    flex: 1;
+  }
+
   div {
     height: 40px;
+    margin-left: auto;
+    @media (min-width: 765px) {
+      width: 360px;
+    }
     @media (max-width: 765px) {
       display: none;
     }
