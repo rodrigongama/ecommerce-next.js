@@ -97,6 +97,8 @@ export default function ShoppingProvider({ children }: ShoppingProviderProps) {
     if (savedShoppingCart) {
       return JSON.parse(savedShoppingCart);
     }
+
+    return [];
   }
 
   useEffect(() => {
