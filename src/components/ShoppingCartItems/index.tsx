@@ -1,47 +1,17 @@
-//prettier-ignore
-import { CartProductsType, useProductsShopping } from '../../contexts/ShoppingContext';
-import { formatValue, handlePurchaseTotal } from '../../utils';
+import { useCart } from '../../contexts/ShoppingContext';
+import { formatValue } from '../../utils';
 
 import Image from 'next/image';
 import { GrTrash } from 'react-icons/gr';
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
 import { TableContainer, ButtonsQuantity } from './style';
 
-interface ShoppingCartItemsProps {
-  handleDeleteProduct: (id: number, shoppingCart: CartProductsType[]) => void;
-}
-
 const INCREMENT_QUANTITY = 1;
 const DECREMENT_QUANTITY = -1;
 
-const ShoppingCartItems = ({ handleDeleteProduct }: ShoppingCartItemsProps) => {
-  const { shoppingCart, setShoppingCart } = useProductsShopping();
-
-  function handleProductQuantity(
-    id: number,
-    quantity_operation: number,
-    shoppingCart: any,
-  ) {
-    const currentProduct = shoppingCart.find(
-      (product: any) => product.id === id,
-    );
-    const finalProducts = shoppingCart.filter(
-      (product: any) => product.id !== id,
-    );
-
-    setShoppingCart([
-      ...finalProducts,
-      {
-        ...currentProduct,
-        purchase_quantity:
-          currentProduct.purchase_quantity + quantity_operation,
-        purchase_total: handlePurchaseTotal(
-          currentProduct.purchase_quantity + quantity_operation,
-          currentProduct.price,
-        ),
-      },
-    ]);
-  }
+const ShoppingCartItems = () => {
+  const { shoppingCart, handleProductQuantity, handleDeleteProduct } =
+    useCart();
 
   return (
     <TableContainer>

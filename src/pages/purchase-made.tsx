@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { Header, Footer, Overlay, Loading } from "../components";
-import { useProductsShopping } from "../contexts/ShoppingContext";
+import { useEffect, useState } from 'react';
+import { Header, Footer, Overlay, Loading } from '../components';
+import { useCart } from '../contexts/ShoppingContext';
 
 const PurchaseMade = () => {
-  const { purchaseData } = useProductsShopping();
+  const { purchaseData } = useCart();
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {

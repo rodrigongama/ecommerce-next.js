@@ -1,8 +1,5 @@
-import {
-  CartProductsType,
-  useProductsShopping,
-} from '../../contexts/ShoppingContext';
-import { useSearch, ProductsType } from '../../contexts/SearchContext';
+import { CartProductsType, useCart } from '../../contexts/ShoppingContext';
+import { useSearch } from '../../contexts/SearchContext';
 import { formatValue, handlePurchaseTotal } from '../../utils';
 
 import Image from 'next/image';
@@ -26,7 +23,7 @@ interface ProductProps {
 }
 
 const Product = ({ name, price, image, specialPrice, id }: ProductProps) => {
-  const { shoppingCart, setShoppingCart } = useProductsShopping();
+  const { shoppingCart, setShoppingCart } = useCart();
   const { products } = useSearch();
 
   function handleProductPurchase(
@@ -52,7 +49,10 @@ const Product = ({ name, price, image, specialPrice, id }: ProductProps) => {
         ...purchasedProduct,
         purchase_quantity: cartProduct ? cartProduct.purchase_quantity + 1 : 1,
         purchase_total: cartProduct
-          ? handlePurchaseTotal(cartProduct.purchase_quantity + 1, price)
+          ? handlePurchaseTotal(
+              cartProduct.purchase_quantity + 1,
+              cartProduct.price,
+            )
           : price,
       },
     ]);

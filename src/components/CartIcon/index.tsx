@@ -1,10 +1,10 @@
-import { useProductsShopping } from '../../contexts/ShoppingContext';
+import { useCart } from '../../contexts/ShoppingContext';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import Link from 'next/link';
 import { CartContainer } from './style';
 
 const CartIcon = () => {
-  const { shoppingCart } = useProductsShopping();
+  const { shoppingCart } = useCart();
 
   return (
     <Link href="/shopping-cart" passHref>
