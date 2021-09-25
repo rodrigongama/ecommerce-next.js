@@ -1,4 +1,4 @@
-import { Header, Footer, ShoppingCart } from '../components';
+import { Header, Footer, CartIcon } from '../components';
 import Head from 'next/head';
 import { ContainerContact, ContainerAdress } from '../styles/pages/contact';
 
@@ -9,7 +9,7 @@ const Contact = () => {
         <title>Contato | WebJump Ecommerce</title>
       </Head>
       <Header>
-        <ShoppingCart />
+        <CartIcon />
       </Header>
 
       <ContainerContact>

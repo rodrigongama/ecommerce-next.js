@@ -1,27 +1,18 @@
-import { Header, Footer } from '../components';
-import { formatValue, handlePurchaseTotal } from '../utils';
-import {
-  CartProductsType,
-  useProductsShopping,
-} from '../contexts/ShoppingContext';
+import { Header, Footer, ShoppingCartItems } from '../components';
+import { formatValue } from '../utils';
+//prettier-ignore
+import { CartProductsType, useProductsShopping } from '../contexts/ShoppingContext';
 import { getNewId } from '../services/idService';
 import api from '../services/api';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { GrTrash } from 'react-icons/gr';
-import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
 import {
   ContainerCart,
-  ButtonsQuantity,
   ContainerButtons,
   ContainerTotalPrice,
 } from '../styles/pages/ShoppingCart';
-
-const INCREMENT_QUANTITY = 1;
-const DECREMENT_QUANTITY = -1;
 
 const ShoppingCart = () => {
   const { shoppingCart, setShoppingCart, purchaseData, setPurchaseData } =
@@ -70,35 +61,33 @@ const ShoppingCart = () => {
     setTotalPrice(0);
   }
 
-  function handleProductQuantity(
-    id: number,
-    quantity_operation: number,
-    shoppingCart: any,
-  ) {
-    const currentProduct = shoppingCart.find(
-      (product: any) => product.id === id,
+  function saveShoppingCart(shoppingCart: CartProductsType[]) {
+    localStorage.setItem(
+      '@e-commerce/shoppingCart',
+      JSON.stringify(shoppingCart),
     );
-    const finalProducts = shoppingCart.filter(
-      (product: any) => product.id !== id,
-    );
+  }
 
-    setShoppingCart([
-      ...finalProducts,
-      {
-        ...currentProduct,
-        purchase_quantity:
-          currentProduct.purchase_quantity + quantity_operation,
-        purchase_total: handlePurchaseTotal(
-          currentProduct.purchase_quantity + quantity_operation,
-          currentProduct.price,
-        ),
-      },
-    ]);
+  function getShoppingCart() {
+    const savedShoppingCart = localStorage.getItem('@e-commerce/shoppingCart');
+
+    if (savedShoppingCart) {
+      return JSON.parse(savedShoppingCart);
+    }
   }
 
   useEffect(() => {
-    handleTotalPrice(shoppingCart);
+    if (shoppingCart.length > 0) {
+      handleTotalPrice(shoppingCart);
+    }
+    saveShoppingCart(shoppingCart);
   }, [shoppingCart]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setShoppingCart(getShoppingCart());
+    }
+  }, []);
 
   return (
     <>
@@ -113,67 +102,7 @@ const ShoppingCart = () => {
           'Carrinho vazio'
         ) : (
           <>
-            <table>
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>Produto</th>
-                  <th>Preço</th>
-                  <th>Quantidade</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {shoppingCart.map(
-                  ({ id, image, name, price, purchase_quantity }) => (
-                    <tr key={id}>
-                      <td>
-                        <Image
-                          width={150}
-                          height={150}
-                          src={image}
-                          alt={name}
-                        />
-                      </td>
-                      <td>{name}</td>
-                      <td>{formatValue(price)}</td>
-                      <ButtonsQuantity>
-                        <button
-                          disabled={purchase_quantity <= 1 ? true : false}
-                          onClick={() =>
-                            handleProductQuantity(
-                              id,
-                              DECREMENT_QUANTITY,
-                              shoppingCart,
-                            )
-                          }
-                        >
-                          <AiOutlineMinusCircle />
-                        </button>
-
-                        <p>{purchase_quantity}</p>
-                        <button
-                          onClick={() =>
-                            handleProductQuantity(
-                              id,
-                              INCREMENT_QUANTITY,
-                              shoppingCart,
-                            )
-                          }
-                        >
-                          <AiOutlinePlusCircle />
-                        </button>
-                      </ButtonsQuantity>
-                      <td>
-                        <GrTrash
-                          onClick={() => handleDeleteProduct(id, shoppingCart)}
-                        />
-                      </td>
-                    </tr>
-                  ),
-                )}
-              </tbody>
-            </table>
+            <ShoppingCartItems handleDeleteProduct={handleDeleteProduct} />
 
             <ContainerTotalPrice>{formatValue(totalPrice)}</ContainerTotalPrice>
 

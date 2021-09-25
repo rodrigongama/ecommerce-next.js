@@ -1,5 +1,5 @@
 // prettier-ignore
-import { Header, Footer, Product, Loading, Sidebar, ViewBar, Search, ShoppingCart } from '../../components';
+import { Header, Footer, Product, Loading, Sidebar, ViewBar, Search, CartIcon } from '../../components';
 
 import { ProductsType, useSearch } from '../../contexts/SearchContext';
 import { useProductsCategories } from '../../contexts/CategoriesContext';
@@ -76,7 +76,7 @@ const Products = ({ slug, data }: ProductsProps) => {
 
       <Header>
         <Search />
-        <ShoppingCart />
+        <CartIcon />
       </Header>
 
       <MainContainer>

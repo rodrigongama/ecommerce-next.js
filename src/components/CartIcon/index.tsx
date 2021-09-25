@@ -3,7 +3,7 @@ import { AiOutlineShoppingCart } from 'react-icons/ai';
 import Link from 'next/link';
 import { CartContainer } from './style';
 
-const ShoppingCart = () => {
+const CartIcon = () => {
   const { shoppingCart } = useProductsShopping();
 
   return (
@@ -16,4 +16,4 @@ const ShoppingCart = () => {
   );
 };
 
-export default ShoppingCart;
+export default CartIcon;
