@@ -149,13 +149,7 @@ export default Products;
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    paths: [
-      {
-        params: {
-          slug: 'camisetas',
-        },
-      },
-    ],
+    paths: [],
     fallback: 'blocking',
   };
 };
