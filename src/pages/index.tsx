@@ -1,6 +1,10 @@
 import { Header, Footer, Overlay, Loading, CartIcon } from '../components';
 import Head from 'next/head';
-import { MainContainer, BackgroundContainer } from '../styles/pages/home';
+import {
+  MainContainer,
+  Aside,
+  BackgroundContainer,
+} from '../styles/pages/home';
 import { useProductsCategories } from '../contexts/CategoriesContext';
 
 const Home = () => {
@@ -23,7 +27,7 @@ const Home = () => {
       </Header>
 
       <MainContainer>
-        <aside></aside>
+        <Aside></Aside>
 
         <div>
           <BackgroundContainer></BackgroundContainer>
